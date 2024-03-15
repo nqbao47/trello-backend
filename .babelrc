@@ -1,8 +1,9 @@
-
+// Xử lý ctrl + click
 {
   "presets": ["@babel/preset-env"],
   "plugins": [
     ["@babel/transform-runtime"],
+    // Xử lý import 
     ["module-resolver", { "alias": { "~": "./src" } }]
   ]
 }
