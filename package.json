@@ -1,0 +1,15 @@
+{
+  "name": "trello-backend",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "briandev project",
+  "main": "src/server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "briandev",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.3"
+  }
+}
