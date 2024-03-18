@@ -2,15 +2,15 @@
  * BrianDev
  */
 import { StatusCodes } from 'http-status-codes'
+import { boardService } from '~/services/boardService'
 
 const createNew = async (req, res, next) => {
   try {
-    console.log('req.body', req.body)
+    // Điều hướng dữ liệu sang tầng Service
+    const createdBoard = await boardService.createNew(req.body)
 
-    // throw new Error('Test error')
-    // throw new ApiError(StatusCodes.BAD_GATEWAY, 'Briandev: Test error')
     // Có kết quả thì trả về Client
-    res.status(StatusCodes.CREATED).json({ message: 'POST from Controller: APIs created new Board.' })
+    res.status(StatusCodes.CREATED).json(createdBoard)
   } catch (error) {
     next(error)
   }
