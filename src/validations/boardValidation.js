@@ -13,7 +13,7 @@ const createNew = async (req, res, next) => {
 
   try {
     /**
-     * abortEarly: trả về all error nếu có thay vì chỉ lỗi đầu tiên gặp
+     * abortEarly: trả về all error nếu có, thay vì chỉ lỗi đầu tiên gặp
      */
     await correctCondition.validateAsync(req.body, { abortEarly: false })
 
