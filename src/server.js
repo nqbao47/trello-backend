@@ -1,13 +1,17 @@
 /* eslint-disable no-console */
 import express from 'express'
+import cors from 'cors'
 
 import { CONNECT_DB } from '~/config/mongodb'
 import { env } from '~/config/environment'
 import { APIs_V1 } from '~/routes/v1/'
 import { errorHandlingMiddleware } from '~/middlewares/errorHandlingMiddleware'
+import { corsOptions } from '~/config/cors'
 
 const START_SERVER = () => {
   const app = express()
+
+  app.use(cors(corsOptions))
 
   /**
    * Tại đây cho phép 1 middleware express json parse những dữ liệu Json ra
