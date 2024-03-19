@@ -1,9 +1,7 @@
 /* eslint-disable no-console */
 import express from 'express'
-import exitHook from 'async-exit-hook'
-import { StatusCodes } from 'http-status-codes'
 
-import { CONNECT_DB, CLOSE_DB } from '~/config/mongodb'
+import { CONNECT_DB } from '~/config/mongodb'
 import { env } from '~/config/environment'
 import { APIs_V1 } from '~/routes/v1/'
 import { errorHandlingMiddleware } from '~/middlewares/errorHandlingMiddleware'
@@ -25,13 +23,6 @@ const START_SERVER = () => {
 
   app.listen(env.APP_PORT, env.APP_HOST, () => {
     console.log(`3. Hey ${env.AUTHOR}, I am running at http://${env.APP_HOST}:${env.APP_PORT}/`)
-  })
-
-  // Cleanup trước khi đóng server
-  exitHook(() => {
-    console.log('4. Disconnecting to MongoDB Cloud Atlas... ')
-    CLOSE_DB()
-    console.log('5. Disconnected to MongoDB Cloud Atlas... ')
   })
 }
 
