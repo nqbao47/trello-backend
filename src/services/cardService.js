@@ -3,7 +3,7 @@
  * BrianDev
  */
 import { cardModel } from '~/models/cardModel'
-
+import { columnModel } from '~/models/columnModel'
 const createNew = async (reqBody) => {
   try {
     const newCard = {
@@ -12,11 +12,15 @@ const createNew = async (reqBody) => {
 
     const createdColumn = await cardModel.createNew(newCard)
 
-    const getCard = await cardModel.findOneById(createdColumn.insertedId)
+    const getNewCard = await cardModel.findOneById(createdColumn.insertedId)
 
-    // ...
+    // Link dữ liệu giữa các Collections
+    if (getNewCard) {
+      // Update lại mảng CardOrderIds trong Collection column
+      await columnModel.pushCardOrderIds(getNewCard)
+    }
 
-    return getCard
+    return getNewCard
   } catch (error) {
     throw error
   }
