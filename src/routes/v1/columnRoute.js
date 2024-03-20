@@ -9,4 +9,7 @@ const Router = express.Router()
 
 Router.route('/').post(columnValidation.createNew, columnController.createNew)
 
+// Update columns API
+Router.route('/:id').put(columnValidation.update, columnController.update).put()
+
 export const columnRoute = Router
