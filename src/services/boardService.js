@@ -6,6 +6,8 @@ import { boardModel } from '~/models/boardModel'
 import ApiError from '~/utils/ApiError'
 import { StatusCodes } from 'http-status-codes'
 import { cloneDeep } from 'lodash'
+import { columnModel } from '~/models/columnModel'
+import { cardModel } from '~/models/cardModel'
 
 const createNew = async (reqBody) => {
   try {
@@ -44,7 +46,8 @@ const getDetails = async (boardId) => {
 
     // B2: Đưa card về đúng Column của chính nó
     resBoard.columns.forEach((column) => {
-      column.cards = resBoard.cards.filter((card) => card.columnId.toString() === column._id.toString()) // Dùng toString() để so sánh
+      column.cards = resBoard.cards.filter((card) => card.columnId.equals(column._id)) // Dùng toString() để so sánh
+      // column.cards = resBoard.cards.filter((card) => card.columnId.toString() === column._id.toString()) // Dùng toString() để so sánh
     })
 
     // B3: Sau khi đổ thành công cards vào column thì xoá nó đi
@@ -70,8 +73,35 @@ const update = async (boardId, reqBody) => {
   }
 }
 
+const moveCardToDifferentColumn = async (reqBody) => {
+  try {
+    // [API] Các bước kéo thả Cards sang Column khác
+    // B1: Update mảng cardOrderIds của Column ban đầu chứa nó (Xoá _id của Card ra khỏi mảng)
+    await columnModel.update(reqBody.prevColumnId, {
+      cardOrderIds: reqBody.prevCardOrderIds,
+      updateAt: Date.now()
+    })
+
+    // B2: Update mảng cardOrderIds của Column tiếp theo (Thêm _id của Card vào mảng)
+    await columnModel.update(reqBody.nextColumnId, {
+      cardOrderIds: reqBody.nextCardOrderIds,
+      updateAt: Date.now()
+    })
+
+    // B3: Update lại  trường columnId mới của cái Card đã kéo
+    await cardModel.update(reqBody.currentCardId, {
+      columnId: reqBody.nextColumnId
+    })
+
+    return { updatedResult: 'Success' }
+  } catch (error) {
+    throw error
+  }
+}
+
 export const boardService = {
   createNew,
   getDetails,
-  update
+  update,
+  moveCardToDifferentColumn
 }
