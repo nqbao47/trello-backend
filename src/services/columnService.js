@@ -4,6 +4,8 @@
  */
 import { columnModel } from '~/models/columnModel'
 import { boardModel } from '~/models/boardModel'
+import { cardModel } from '~/models/cardModel'
+
 const createNew = async (reqBody) => {
   try {
     const newColumn = {
@@ -43,7 +45,31 @@ const update = async (columnId, reqBody) => {
   }
 }
 
+const deleteItem = async (columnId) => {
+  try {
+    // Lấy thông tin cột để có thể chèn tên vào thông báo
+    const column = await columnModel.findOneById(columnId)
+
+    if (!column) {
+      throw new Error('Column not found!')
+    }
+
+    // Xoá Column
+    await columnModel.deleteOneById(columnId)
+
+    // Xoá Cards thuộc Column trên
+    await cardModel.deleteManyByColumnId(columnId)
+    // return { deleteResult: 'Column and its Cards deleted successfully!' }
+    const deleteResult = `${column.title} and its Cards deleted successfully!`
+
+    return { deleteResult }
+  } catch (error) {
+    throw error
+  }
+}
+
 export const columnService = {
   createNew,
-  update
+  update,
+  deleteItem
 }

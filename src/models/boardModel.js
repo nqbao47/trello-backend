@@ -49,12 +49,12 @@ const createNew = async (data) => {
  * Lấy insertId của board vừa tạo để truy vấn vào CSDl 1 lần nữa
  * để lấy ra toàn bộ dữ liệu của Collectiom => trả về cho client(hiển thị,...)
  */
-const findOneById = async (id) => {
+const findOneById = async (boardId) => {
   try {
     const result = await GET_DB()
       .collection(BOARD_COLLECTION_NAME)
       .findOne({
-        _id: new ObjectId(id)
+        _id: new ObjectId(boardId)
       })
     return result
   } catch (error) {

@@ -10,6 +10,8 @@ const Router = express.Router()
 Router.route('/').post(columnValidation.createNew, columnController.createNew)
 
 // Update columns API
-Router.route('/:id').put(columnValidation.update, columnController.update).put()
+Router.route('/:id')
+  .put(columnValidation.update, columnController.update)
+  .delete(columnValidation.deleteItem, columnController.deleteItem)
 
 export const columnRoute = Router
