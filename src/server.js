@@ -26,7 +26,7 @@ const START_SERVER = () => {
   app.use(errorHandlingMiddleware)
 
   // Production
-  if (env.BUILD_MODE === 'prod') {
+  if (env.BUILD_MODE === 'production') {
     app.listen(process.env.PORT, () => {
       console.log(`3. Production: Hey ${env.AUTHOR}, I am running at ${process.env.PORT}/`)
     })
