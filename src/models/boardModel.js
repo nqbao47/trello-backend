@@ -104,7 +104,10 @@ const getDetails = async (id) => {
   }
 }
 
-// Push 1 giá trị columnId vào cuối mảng columOrderIds
+/**
+ * Đẩy 1 phần tử columnId vào cuối mảng columOrderIds
+ * sử dụng $push trong mongoDb để lấy 1 phần tử vào cuối mảng
+ */
 const pushColumnOrderIds = async (column) => {
   try {
     const result = await GET_DB()
@@ -112,6 +115,25 @@ const pushColumnOrderIds = async (column) => {
       .findOneAndUpdate(
         { _id: new ObjectId(column.boardId) },
         { $push: { columnOrderIds: new ObjectId(column._id) } },
+        { returnDocument: 'after' }
+      )
+    return result
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+/**
+ * Lấy 1 phần từ columId ra khỏi mảng columnOrderIds
+ * sử dụng $pull trong mongoDb để lấy 1 phần tử ra khỏi mảng và xoá nó đi
+ */
+const pullColumnOrderIds = async (column) => {
+  try {
+    const result = await GET_DB()
+      .collection(BOARD_COLLECTION_NAME)
+      .findOneAndUpdate(
+        { _id: new ObjectId(column.boardId) },
+        { $pull: { columnOrderIds: new ObjectId(column._id) } },
         { returnDocument: 'after' }
       )
     return result
@@ -130,7 +152,7 @@ const update = async (boardId, updateData) => {
       }
     })
 
-    console.log('updateData: ', updateData)
+    // console.log('updateData: ', updateData)
 
     const result = await GET_DB()
       .collection(BOARD_COLLECTION_NAME)
@@ -148,5 +170,6 @@ export const boardModel = {
   createNew,
   findOneById,
   getDetails,
-  update
+  update,
+  pullColumnOrderIds
 }
