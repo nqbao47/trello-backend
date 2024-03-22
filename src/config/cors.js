@@ -11,7 +11,7 @@ export const corsOptions = {
       return callback(null, true)
     }
 
-    env.BUILD_MODE === 'production'
+    // env.BUILD_MODE === 'production'
 
     // Kiểm tra xem origin có phải là domain được chấp nhận hay không
     if (WHITELIST_DOMAINS.includes(origin)) {
