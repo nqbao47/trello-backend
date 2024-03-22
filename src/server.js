@@ -25,9 +25,19 @@ const START_SERVER = () => {
   // Middlewares xử lý lỗi tập trung
   app.use(errorHandlingMiddleware)
 
-  app.listen(env.APP_PORT, env.APP_HOST, () => {
-    console.log(`3. Hey ${env.AUTHOR}, I am running at http://${env.APP_HOST}:${env.APP_PORT}/`)
-  })
+  // Production
+  if (env.BUILD_MODE === 'prod') {
+    app.listen(process.env.PORT, () => {
+      console.log(`3. Production: Hey ${env.AUTHOR}, I am running at ${process.env.PORT}/`)
+    })
+  } else {
+    // Develop
+    app.listen(env.LOCAL_DEV_APP_PORT, env.LOCAL_DEV_APP_HOST, () => {
+      console.log(
+        `3. DEV: Hey ${env.AUTHOR}, I am running at http://${env.LOCAL_DEV_APP_HOST}:${env.LOCAL_DEV_APP_PORT}/`
+      )
+    })
+  }
 }
 
 ;(async () => {
