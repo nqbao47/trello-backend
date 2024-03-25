@@ -89,11 +89,24 @@ const deleteManyByColumnId = async (columnId) => {
   }
 }
 
+// Function để tìm kiếm các card
+const find = async (query) => {
+  try {
+    const db = await GET_DB()
+    const collection = db.collection(CARD_COLLECTION_NAME)
+    const cards = await collection.find(query).toArray()
+    return cards
+  } catch (error) {
+    throw error
+  }
+}
+
 export const cardModel = {
   CARD_COLLECTION_NAME,
   CARD_COLLECTION_SCHEMA,
   createNew,
   findOneById,
   update,
-  deleteManyByColumnId
+  deleteManyByColumnId,
+  find
 }
