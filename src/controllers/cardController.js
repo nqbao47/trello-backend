@@ -16,6 +16,18 @@ const createNew = async (req, res, next) => {
   }
 }
 
+const search = async (req, res, next) => {
+  try {
+    const { query } = req.query
+    // Gọi service để xử lý tìm kiếm card
+    const searchResults = await cardService.search(query)
+    res.status(StatusCodes.OK).json(searchResults)
+  } catch (error) {
+    next(error)
+  }
+}
+
 export const cardController = {
-  createNew
+  createNew,
+  search
 }

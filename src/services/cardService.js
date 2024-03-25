@@ -4,6 +4,7 @@
  */
 import { cardModel } from '~/models/cardModel'
 import { columnModel } from '~/models/columnModel'
+
 const createNew = async (reqBody) => {
   try {
     const newCard = {
@@ -26,6 +27,18 @@ const createNew = async (reqBody) => {
   }
 }
 
+const search = async (searchQuery) => {
+  try {
+    // Sử dụng logic tìm kiếm phù hợp với ứng dụng của bạn
+    // Ví dụ: Tìm các card có tên chứa searchQuery
+    const searchResults = await cardModel.find({ title: { $regex: searchQuery, $options: 'i' } })
+    return searchResults
+  } catch (error) {
+    throw error
+  }
+}
+
 export const cardService = {
-  createNew
+  createNew,
+  search
 }
