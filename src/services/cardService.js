@@ -21,7 +21,10 @@ const createNew = async (reqBody) => {
       await columnModel.pushCardOrderIds(getNewCard)
     }
 
-    return getNewCard
+    // Config message response
+    const successMessage = `Card "${getNewCard.title}" has been Created successfully!`
+
+    return { card: getNewCard, message: successMessage }
   } catch (error) {
     throw error
   }

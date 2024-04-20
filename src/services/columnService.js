@@ -27,7 +27,10 @@ const createNew = async (reqBody) => {
       await boardModel.pushColumnOrderIds(getNewColumn)
     }
 
-    return getNewColumn
+    // Config message response
+    const successMessage = `Column "${getNewColumn.title}" has been Created successfully!`
+
+    return { column: getNewColumn, message: successMessage }
   } catch (error) {
     throw error
   }
@@ -51,7 +54,6 @@ const deleteItem = async (columnId) => {
   try {
     // Lấy thông tin cột để có thể chèn tên vào thông báo
     const column = await columnModel.findOneById(columnId)
-    console.log('🚀 ~ deleteItem ~ column:', column)
 
     if (!column) {
       throw new ApiError(StatusCodes.NOT_FOUND, 'Column not found!')
@@ -67,7 +69,7 @@ const deleteItem = async (columnId) => {
     await boardModel.pullColumnOrderIds(column)
 
     // return { deleteResult: 'Column and its Cards deleted successfully!' }
-    const deleteResult = `${column.title} and its Cards deleted successfully!`
+    const deleteResult = `Column "${column.title}" has been successfully Deleted!`
 
     return { deleteResult }
   } catch (error) {
