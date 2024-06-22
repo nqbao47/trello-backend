@@ -42,7 +42,7 @@ export const GET_DB = () => {
 
 // Đóng kết nối tới Database
 export const CLOSE_DB = async () => {
-  console.log('CLOSE_BD Function... ')
+  // console.log('CLOSE_BD Function... ')
 
   await mongoClientInstance.close()
 }
